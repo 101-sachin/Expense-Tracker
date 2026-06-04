@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
-import {View, ActivityIndicator, StatusBar, StyleSheet} from 'react-native';
+import {View, StatusBar, StyleSheet} from 'react-native';
+import {useTheme} from '../contexts/ThemeContext';
+import Loader from './Loader';
 import AppLogo from './AppLogo';
 
 interface SplashScreenProps {
@@ -7,22 +9,27 @@ interface SplashScreenProps {
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = ({onFinish}) => {
+  const {colors, isDark} = useTheme();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onFinish();
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [onFinish]);
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
+      <StatusBar
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.background}
+      />
       <View style={styles.logoContainer}>
         <AppLogo size={200} />
       </View>
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#1E3A5F" />
+        <Loader minimal size="large" color={colors.primary} message="" />
       </View>
     </View>
   );

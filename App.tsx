@@ -12,6 +12,15 @@ import ExpenseTrackerMain from './components/ExpenseTrackerMain';
 
 const AppContent: React.FC = () => {
   const {colors, isDark} = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleSplashFinish = () => {
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return <SplashScreen onFinish={handleSplashFinish} />;
+  }
 
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: colors.background}]}>
@@ -25,16 +34,6 @@ const AppContent: React.FC = () => {
 };
 
 function App(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleSplashFinish = () => {
-    setIsLoading(false);
-  };
-
-  if (isLoading) {
-    return <SplashScreen onFinish={handleSplashFinish} />;
-  }
-
   return (
     <ThemeProvider>
       <AlertProvider>
