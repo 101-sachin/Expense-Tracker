@@ -458,11 +458,6 @@ const ExpensesList: React.FC<ExpensesListProps> = ({
               value={localSearch}
               onChangeText={setLocalSearch}
             />
-            {localSearch.length > 0 && (
-              <AnimatedTouchable style={s.clearButton} onPress={() => setLocalSearch('')}>
-                <Text style={s.clearIconText}>×</Text>
-              </AnimatedTouchable>
-            )}
           </View>
         </View>
       )}

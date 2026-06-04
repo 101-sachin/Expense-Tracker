@@ -497,11 +497,6 @@ const ExpensesPage: React.FC<ExpensesPageProps> = ({
             value={localSearch}
             onChangeText={setLocalSearch}
           />
-          {localSearch.length > 0 && (
-            <AnimatedTouchable style={dynamicStyles.clearButton} onPress={() => setLocalSearch('')}>
-              <Text style={dynamicStyles.clearIconText}>×</Text>
-            </AnimatedTouchable>
-          )}
         </View>
       </View>
 
