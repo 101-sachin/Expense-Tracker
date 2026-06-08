@@ -14,15 +14,19 @@ export const expenseApi = {
       mapExpenseToApiExpensePayload(payload),
     );
 
-    const table = extractApiData<ApiExpenseTable>(response.data);
-    const expenses: ApiExpense[] = table.expenses ?? [];
-    const created = expenses[expenses.length - 1];
+    const raw = extractApiData<ApiExpenseTable | ApiExpense>(response.data);
 
-    if (!created) {
-      throw new Error('create expense: no expense returned in response');
+    // Backend may return the full table (old shape) or a bare expense (new shape)
+    if ('expenses' in raw && Array.isArray((raw as ApiExpenseTable).expenses)) {
+      const expenses = (raw as ApiExpenseTable).expenses ?? [];
+      const created = expenses[expenses.length - 1];
+      if (!created) {
+        throw new Error('create expense: no expense returned in response');
+      }
+      return mapApiExpenseToExpense(created);
     }
 
-    return mapApiExpenseToExpense(created);
+    return mapApiExpenseToExpense(raw as ApiExpense);
   },
 
   async update(
